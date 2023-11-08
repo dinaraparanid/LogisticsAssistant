@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BIATestApp</string>
+    <string name="bia" translatable="false">BIA</string>
+    <string name="logistics_assistant">Logistics Assistant</string>
+    <string name="welcome_label">Welcome to BIA.Logistics Assistant</string>
+    <string name="enter_number_for_auth">Enter your authorization number</string>
+    <string name="contine">Continue</string>
+</resources>

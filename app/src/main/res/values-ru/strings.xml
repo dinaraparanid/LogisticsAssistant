@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BIATestApp</string>
+    <string name="logistics_assistant">Помощник логиста</string>
+    <string name="welcome_label">Добро пожаловать в БИА.Помощник логиста</string>
+    <string name="enter_number_for_auth">Введите свой номер для авторизации</string>
+    <string name="contine">Продолжить</string>
+</resources>

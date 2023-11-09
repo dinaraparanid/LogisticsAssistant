@@ -10,9 +10,17 @@
     <string name="obtain_password">To obtain the password, contact the supervisor</string>
     <string name="incorrect_password">Incorrect password</string>
     <string name="tasks">Tasks</string>
-    <string name="graphs">Graphs</string>
+    <string name="schedules">Schedules</string>
     <string name="chat">Chat</string>
     <string name="profile">Profile</string>
     <string name="incoming">Incoming</string>
     <string name="in_process">In process</string>
+    <string name="employee_id">Employee ID</string>
+    <string name="phone_number">Phone number</string>
+    <string name="citizenship">Citizenship</string>
+    <string name="car">Car</string>
+    <string name="car_number">Number</string>
+    <string name="notifications">Notifications</string>
+    <string name="sign_out">Sign out</string>
+    <string name="shift_schedule">Shift schedule</string>
 </resources>

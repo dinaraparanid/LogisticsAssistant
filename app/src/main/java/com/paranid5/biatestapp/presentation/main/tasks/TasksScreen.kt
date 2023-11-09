@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.presentation.tasks
+package com.paranid5.biatestapp.presentation.main.tasks
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

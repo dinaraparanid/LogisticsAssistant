@@ -10,9 +10,17 @@
     <string name="obtain_password">Для получения пароля обратитесь к руководителю</string>
     <string name="incorrect_password">Неверный пароль</string>
     <string name="tasks">Задания</string>
-    <string name="graphs">Графики</string>
+    <string name="schedules">Графики</string>
     <string name="chat">Чат</string>
     <string name="profile">Профиль</string>
     <string name="incoming">Входящие</string>
     <string name="in_process">В работе</string>
+    <string name="employee_id">Табельный №</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="citizenship">Гражданство</string>
+    <string name="car">Машина</string>
+    <string name="car_number">Номера</string>
+    <string name="notifications">Оповещения</string>
+    <string name="sign_out">Выйти</string>
+    <string name="shift_schedule">График смен</string>
 </resources>

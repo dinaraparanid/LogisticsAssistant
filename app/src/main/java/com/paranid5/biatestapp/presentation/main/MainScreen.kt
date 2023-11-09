@@ -11,10 +11,10 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.paranid5.biatestapp.presentation.app_bar.MainAppBar
-import com.paranid5.biatestapp.presentation.chat.ChatScreen
-import com.paranid5.biatestapp.presentation.graphs.GraphsScreen
-import com.paranid5.biatestapp.presentation.profile.ProfileScreen
-import com.paranid5.biatestapp.presentation.tasks.TasksScreen
+import com.paranid5.biatestapp.presentation.main.chat.ChatScreen
+import com.paranid5.biatestapp.presentation.main.schedules.SchedulesScreen
+import com.paranid5.biatestapp.presentation.main.profile.ProfileScreen
+import com.paranid5.biatestapp.presentation.main.tasks.TasksScreen
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 
 @Composable
@@ -42,8 +42,8 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 TasksScreen(Modifier.fillMaxSize())
             }
 
-            composable(route = MainNavController.GRAPHS_SCREEN) {
-                GraphsScreen(Modifier.fillMaxSize())
+            composable(route = MainNavController.SCHEDULES_SCREEN) {
+                SchedulesScreen(Modifier.fillMaxSize())
             }
 
             composable(route = MainNavController.CHAT_SCREEN) {

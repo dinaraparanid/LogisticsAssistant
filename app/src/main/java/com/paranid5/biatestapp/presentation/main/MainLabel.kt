@@ -5,7 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.paranid5.biatestapp.presentation.tasks.TasksLabel
+import com.paranid5.biatestapp.presentation.main.profile.ProfileLabel
+import com.paranid5.biatestapp.presentation.main.schedules.SchedulesLabel
+import com.paranid5.biatestapp.presentation.main.tasks.TasksLabel
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 
 @Composable
@@ -19,8 +21,8 @@ fun MainLabel(modifier: Modifier = Modifier) {
             TasksLabel(modifier.background(colors.background))
         }
 
-        MainNavController.GRAPHS_SCREEN -> {
-
+        MainNavController.SCHEDULES_SCREEN -> {
+            SchedulesLabel(modifier.background(colors.background))
         }
 
         MainNavController.CHAT_SCREEN -> {
@@ -28,7 +30,7 @@ fun MainLabel(modifier: Modifier = Modifier) {
         }
 
         MainNavController.PROFILE_SCREEN -> {
-
+            ProfileLabel(modifier.background(colors.background))
         }
     }
 }

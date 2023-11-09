@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.presentation.tasks
+package com.paranid5.biatestapp.presentation.main.schedules
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +15,7 @@ import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 
 @Composable
-fun TasksLabel(modifier: Modifier = Modifier) {
+fun SchedulesLabel(modifier: Modifier = Modifier) {
     val colors = LocalAppColors.current.value
 
     Box(
@@ -24,7 +24,7 @@ fun TasksLabel(modifier: Modifier = Modifier) {
             .padding(horizontal = 10.dp, vertical = 16.dp)
     ) {
         Text(
-            text = stringResource(id = R.string.tasks),
+            text = stringResource(id = R.string.shift_schedule),
             fontSize = 22.sp,
             color = colors.primary,
             fontWeight = FontWeight.Normal,

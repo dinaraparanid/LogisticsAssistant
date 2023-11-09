@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.presentation.chat
+package com.paranid5.biatestapp.presentation.main.chat
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

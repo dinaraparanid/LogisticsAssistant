@@ -65,7 +65,11 @@ fun MainAppBarItem(
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(containerColor = cardColor),
             content = {
-               Box(Modifier.fillMaxWidth().padding(vertical = 10.dp)) {
+               Box(
+                   Modifier
+                       .fillMaxWidth()
+                       .padding(vertical = 4.dp, horizontal = 16.dp)
+               ) {
                    iconView(
                        contentColor,
                        description,
@@ -76,7 +80,7 @@ fun MainAppBarItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(vertical = 4.dp, horizontal = 12.dp),
+                .padding(horizontal = 12.dp),
         )
 
         Text(
@@ -86,9 +90,7 @@ fun MainAppBarItem(
             fontFamily = StolzlFontFamily,
             textAlign = TextAlign.Center,
             color = contentColor,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }

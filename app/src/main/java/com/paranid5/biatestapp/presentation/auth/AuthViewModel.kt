@@ -53,7 +53,7 @@ class AuthViewModel @Inject constructor(
                 authClient.getUserPasswordByPhoneNumber(
                     phoneNumber = _phoneNumberState.value
                 ).body()
-            }.getOrNull() ?: User(password = "101010") // Типа корректный пароль
+            }.getOrNull() ?: User(phoneNumber = _phoneNumberState.value) // Типа вернул юзера
         }
 
         val password = user.password

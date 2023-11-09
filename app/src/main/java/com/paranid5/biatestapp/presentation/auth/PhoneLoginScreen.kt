@@ -34,6 +34,7 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paranid5.biatestapp.R
+import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 
 private const val ENTER_REGION_MAX_LEN = 10
@@ -65,47 +66,55 @@ fun PhoneLoginScreen(authViewModel: AuthViewModel, modifier: Modifier = Modifier
 private fun PhoneNumberEnterLabel(
     authViewModel: AuthViewModel,
     modifier: Modifier = Modifier
-) = Column(modifier) {
-    Text(
-        text = stringResource(id = R.string.welcome_label),
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Normal,
-        fontFamily = StolzlFontFamily
-    )
+) {
+    val colors = LocalAppColors.current.value
 
-    Spacer(Modifier.height(16.dp))
+    Column(modifier) {
+        Text(
+            text = stringResource(id = R.string.welcome_label),
+            color = colors.primary,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Normal,
+            fontFamily = StolzlFontFamily
+        )
 
-    Text(
-        text = stringResource(id = R.string.enter_number_for_auth),
-        fontSize = 14.sp,
-        fontWeight = FontWeight.Normal,
-        fontFamily = StolzlFontFamily
-    )
+        Spacer(Modifier.height(16.dp))
 
-    Spacer(Modifier.height(24.dp))
+        Text(
+            text = stringResource(id = R.string.enter_number_for_auth),
+            color = colors.primary,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Normal,
+            fontFamily = StolzlFontFamily
+        )
 
-    PhoneNumberEditor(
-        authViewModel = authViewModel,
-        modifier = Modifier.fillMaxWidth()
-    )
+        Spacer(Modifier.height(24.dp))
+
+        PhoneNumberEditor(
+            authViewModel = authViewModel,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }
 
 @Composable
 private fun PhoneNumberEditor(authViewModel: AuthViewModel, modifier: Modifier = Modifier) {
+    val colors = LocalAppColors.current.value
     val phoneNumber by authViewModel.phoneNumberState.collectAsState()
 
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(20.dp),
-        border = BorderStroke(2.dp, Color.Black),
+        border = BorderStroke(2.dp, colors.primary),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         BasicTextField(
             value = phoneNumber,
             textStyle = TextStyle(
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.Bold,
                 fontFamily = StolzlFontFamily,
+                color = colors.primary
             ),
             onValueChange = { authViewModel.setPhoneNumber(it.take(ENTER_REGION_MAX_LEN)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -169,6 +178,7 @@ private fun ConfirmPhoneButton(
     authViewModel: AuthViewModel,
     modifier: Modifier = Modifier
 ) {
+    val colors = LocalAppColors.current.value
     val navController = LocalAuthNavController.current
 
     val phoneNumber by authViewModel.phoneNumberState.collectAsState()
@@ -181,14 +191,14 @@ private fun ConfirmPhoneButton(
         modifier = modifier,
         enabled = isButtonEnabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Black,
+            containerColor = colors.primary,
             disabledContainerColor = Color.LightGray
         ),
         onClick = { navController.navigateToPasswordScreen() }
     ) {
         Text(
             text = stringResource(id = R.string.contine),
-            color = Color.White,
+            color = colors.background,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
             fontFamily = StolzlFontFamily,

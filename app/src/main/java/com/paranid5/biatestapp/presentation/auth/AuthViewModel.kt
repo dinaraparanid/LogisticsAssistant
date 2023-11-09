@@ -40,15 +40,21 @@ class AuthViewModel @Inject constructor(
         savedStateHandle[PASSWORD] = _passwordState.updateAndGet { password }
     }
 
+    private val _userState = MutableStateFlow(User())
+
+    val userState = _userState.asStateFlow()
+
     suspend fun isPasswordCorrect(): Boolean {
         // Неккоректная base ссылка-заглушка,
         // представим, что мы ничего не видели, и она корректная :)
 
-        val user = runCatching {
-            authClient.getUserPasswordByPhoneNumber(
-                phoneNumber = _phoneNumberState.value
-            ).body()
-        }.getOrNull() ?: User(password = "101010") // Типа корректный пароль
+        val user = _userState.updateAndGet {
+            runCatching {
+                authClient.getUserPasswordByPhoneNumber(
+                    phoneNumber = _phoneNumberState.value
+                ).body()
+            }.getOrNull() ?: User(password = "101010") // Типа корректный пароль
+        }
 
         val password = user.password
 

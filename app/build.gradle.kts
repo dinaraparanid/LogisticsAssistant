@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.parcelize)
 }
 
 android {
@@ -70,6 +71,8 @@ dependencies {
     implementation(libs.retrofit.gson)
 
     implementation(libs.gson)
+
+    implementation(libs.kotlinx.datetime)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -48,7 +49,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paranid5.biatestapp.R
-import com.paranid5.biatestapp.presentation.MainActivity
+import com.paranid5.biatestapp.presentation.main.MainActivity
+import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -91,6 +93,7 @@ private fun PasswordEnterLabel(
     isPasswordCorrectState: State<Boolean?>,
     modifier: Modifier = Modifier
 ) {
+    val colors = LocalAppColors.current.value
     val navController = LocalAuthNavController.current
 
     Column(modifier) {
@@ -102,7 +105,7 @@ private fun PasswordEnterLabel(
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left_line),
                     contentDescription = stringResource(id = R.string.back),
-                    tint = Color.Black,
+                    tint = colors.primary,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -111,6 +114,7 @@ private fun PasswordEnterLabel(
 
             Text(
                 text = stringResource(id = R.string.enter_password),
+                color = colors.primary,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = StolzlFontFamily,
@@ -122,6 +126,7 @@ private fun PasswordEnterLabel(
 
         Text(
             text = stringResource(id = R.string.obtain_password),
+            color = colors.primary,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
             fontFamily = StolzlFontFamily
@@ -138,7 +143,7 @@ private fun PasswordEnterLabel(
         if (isPasswordCorrectState.value == false)
             Text(
                 text = stringResource(id = R.string.incorrect_password),
-                color = Color.Red,
+                color = colors.secondary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = StolzlFontFamily,
@@ -153,13 +158,21 @@ fun PasswordEditor(
     isPasswordCorrectState: State<Boolean?>,
     modifier: Modifier = Modifier
 )  {
+    val colors = LocalAppColors.current.value
+
     val password by authViewModel.passwordState.collectAsState()
     val isPasswordCorrect by isPasswordCorrectState
 
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(20.dp),
-        border = BorderStroke(2.dp, if (isPasswordCorrect == false) Color.Red else Color.Black),
+        border = BorderStroke(
+            2.dp,
+            when (isPasswordCorrect) {
+                false -> colors.secondary
+                else -> colors.primary
+            }
+        ),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         BasicTextField(
@@ -168,12 +181,13 @@ fun PasswordEditor(
                 fontSize = 16.sp,
                 letterSpacing = 10.sp,
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Normal,
-                fontFamily = StolzlFontFamily
+                fontWeight = FontWeight.Bold,
+                fontFamily = StolzlFontFamily,
+                color = colors.primary
             ),
             onValueChange = { authViewModel.setPassword(it.take(ENTER_REGION_MAX_LEN)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            visualTransformation = ::passwordFilter,
+            visualTransformation = { passwordFilter(it, colors) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp)
@@ -181,12 +195,12 @@ fun PasswordEditor(
     }
 }
 
-private fun passwordFilter(text: AnnotatedString): TransformedText {
+private fun passwordFilter(text: AnnotatedString, colors: ColorScheme): TransformedText {
     val trimmed = text.text.take(HINT_PASSWORD.length)
 
     val annotatedString = AnnotatedString.Builder().run {
         append(trimmed)
-        pushStyle(SpanStyle(color = Color.Black, fontWeight = FontWeight.Bold))
+        pushStyle(SpanStyle(color = colors.primary, fontWeight = FontWeight.Bold))
 
         val left = HINT_PASSWORD.length - length
         append(HINT_PASSWORD.takeLast(left))
@@ -211,6 +225,7 @@ private fun ConfirmPasswordButton(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val colors = LocalAppColors.current.value
 
     val password by authViewModel.passwordState.collectAsState()
     val isPasswordCorrect by isPasswordCorrectState
@@ -230,7 +245,7 @@ private fun ConfirmPasswordButton(
             modifier = Modifier.fillMaxWidth(),
             enabled = isButtonEnabled,
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Black,
+                containerColor = colors.primary,
                 disabledContainerColor = Color.LightGray
             ),
             onClick = {
@@ -240,13 +255,18 @@ private fun ConfirmPasswordButton(
                     }
 
                     if (isPasswordCorrect == true)
-                        context.startActivity(Intent(context, MainActivity::class.java))
+                        context.startActivity(
+                            Intent(context, MainActivity::class.java).putExtra(
+                                MainActivity.USER_KEY,
+                                authViewModel.userState.value
+                            )
+                        )
                 }
             }
         ) {
             Text(
                 text = stringResource(id = R.string.contine),
-                color = Color.White,
+                color = colors.background,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = StolzlFontFamily,

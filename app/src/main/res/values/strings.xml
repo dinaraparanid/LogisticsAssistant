@@ -9,4 +9,10 @@
     <string name="back">Back</string>
     <string name="obtain_password">To obtain the password, contact the supervisor</string>
     <string name="incorrect_password">Incorrect password</string>
+    <string name="tasks">Tasks</string>
+    <string name="graphs">Graphs</string>
+    <string name="chat">Chat</string>
+    <string name="profile">Profile</string>
+    <string name="incoming">Incoming</string>
+    <string name="in_process">In process</string>
 </resources>

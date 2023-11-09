@@ -15,9 +15,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paranid5.biatestapp.R
+import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 
 @Composable
-fun AppLabel(modifier: Modifier = Modifier) =
+fun AppLabel(modifier: Modifier = Modifier) {
+    val colors = LocalAppColors.current.value
+
     Row(modifier) {
         Image(
             painter = painterResource(id = R.drawable.bia_icon),
@@ -31,8 +34,10 @@ fun AppLabel(modifier: Modifier = Modifier) =
 
         Text(
             text = stringResource(id = R.string.logistics_assistant),
+            color = colors.primary,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
     }
+}

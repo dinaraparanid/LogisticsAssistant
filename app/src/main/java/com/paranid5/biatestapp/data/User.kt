@@ -1,7 +1,10 @@
 package com.paranid5.biatestapp.data
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class User(
     val name: String = "",
     val password: String = "",
@@ -11,4 +14,4 @@ data class User(
     val citizenship: String = "",
     @SerializedName("car_type") val carType: String = "",
     @SerializedName("car_number") val carNumber: String = ""
-)
+) : Parcelable

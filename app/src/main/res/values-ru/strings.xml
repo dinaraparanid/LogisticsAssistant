@@ -9,4 +9,10 @@
     <string name="back">Назад</string>
     <string name="obtain_password">Для получения пароля обратитесь к руководителю</string>
     <string name="incorrect_password">Неверный пароль</string>
+    <string name="tasks">Задания</string>
+    <string name="graphs">Графики</string>
+    <string name="chat">Чат</string>
+    <string name="profile">Профиль</string>
+    <string name="incoming">Входящие</string>
+    <string name="in_process">В работе</string>
 </resources>

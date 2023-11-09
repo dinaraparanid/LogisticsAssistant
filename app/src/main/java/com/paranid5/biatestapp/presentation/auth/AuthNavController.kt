@@ -1,5 +1,6 @@
 package com.paranid5.biatestapp.presentation.auth
 
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavHostController
 
 class AuthNavController(val navController: NavHostController? = null) {
@@ -14,5 +15,8 @@ class AuthNavController(val navController: NavHostController? = null) {
             ?: throw IllegalStateException("AuthNavController was not initialized")
 
     fun navigateToLoginScreen() = navigateToScreen(LOGIN_SCREEN)
+
     fun navigateToPasswordScreen() = navigateToScreen(PASSWORD_SCREEN)
 }
+
+val LocalAuthNavController = staticCompositionLocalOf { AuthNavController() }

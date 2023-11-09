@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.paranid5.biatestapp.presentation.auth.AuthActivity
-import com.paranid5.biatestapp.presentation.theme.BIATestAppTheme
+import com.paranid5.biatestapp.presentation.ui.theme.BIATestAppTheme
 import kotlinx.coroutines.delay
 
 private const val SPLASH_SCREEN_DELAY_MS = 2000L

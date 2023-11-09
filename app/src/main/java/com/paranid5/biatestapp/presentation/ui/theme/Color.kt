@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.presentation.theme
+package com.paranid5.biatestapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

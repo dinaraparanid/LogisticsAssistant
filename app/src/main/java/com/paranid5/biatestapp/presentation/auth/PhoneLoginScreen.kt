@@ -1,16 +1,12 @@
 package com.paranid5.biatestapp.presentation.auth
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,17 +16,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -39,31 +31,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paranid5.biatestapp.R
+import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 
 private const val ENTER_REGION_MAX_LEN = 10
-private const val PAT_PHONE_NUMBER = "+7 (999) 000 - 00 - 00"
+private const val HINT_PHONE_NUMBER = "+7 (999) 000 - 00 - 00"
 
-@Preview
 @Composable
-fun AuthScreen(modifier: Modifier = Modifier) {
-    val phoneNumberState = rememberSaveable { mutableStateOf("") }
-
+fun PhoneLoginScreen(authViewModel: AuthViewModel, modifier: Modifier = Modifier) {
     Box(modifier) {
         AppLabel(Modifier.padding(top = 45.dp, start = 16.dp))
 
-        NumberEnterLabel(
-            phoneNumberState = phoneNumberState,
+        PhoneNumberEnterLabel(
+            authViewModel = authViewModel,
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(horizontal = 16.dp)
         )
 
         ConfirmPhoneButton(
-            phoneNumberState = phoneNumberState,
+            authViewModel = authViewModel,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -73,57 +62,38 @@ fun AuthScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun AppLabel(modifier: Modifier = Modifier) =
-    Row(modifier) {
-        Image(
-            painter = painterResource(id = R.drawable.bia_icon),
-            contentDescription = stringResource(id = R.string.bia),
-            modifier = Modifier
-                .size(50.dp)
-                .align(Alignment.CenterVertically)
-        )
-
-        Spacer(Modifier.width(5.dp))
-
-        Text(
-            text = stringResource(id = R.string.logistics_assistant),
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterVertically)
-        )
-    }
-
-@Composable
-private fun NumberEnterLabel(
-    phoneNumberState: MutableState<String>,
+private fun PhoneNumberEnterLabel(
+    authViewModel: AuthViewModel,
     modifier: Modifier = Modifier
-) {
-    Column(modifier) {
-        Text(
-            text = stringResource(id = R.string.welcome_label),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Normal,
-        )
+) = Column(modifier) {
+    Text(
+        text = stringResource(id = R.string.welcome_label),
+        fontSize = 22.sp,
+        fontWeight = FontWeight.Normal,
+        fontFamily = StolzlFontFamily
+    )
 
-        Spacer(Modifier.height(16.dp))
+    Spacer(Modifier.height(16.dp))
 
-        Text(
-            text = stringResource(id = R.string.enter_number_for_auth),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Normal,
-        )
+    Text(
+        text = stringResource(id = R.string.enter_number_for_auth),
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal,
+        fontFamily = StolzlFontFamily
+    )
 
-        Spacer(Modifier.height(24.dp))
+    Spacer(Modifier.height(24.dp))
 
-        NumberEditor(
-            phoneNumberState = phoneNumberState,
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
+    PhoneNumberEditor(
+        authViewModel = authViewModel,
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable
-fun NumberEditor(phoneNumberState: MutableState<String>, modifier: Modifier = Modifier) =
+private fun PhoneNumberEditor(authViewModel: AuthViewModel, modifier: Modifier = Modifier) {
+    val phoneNumber by authViewModel.phoneNumberState.collectAsState()
+
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(20.dp),
@@ -131,17 +101,22 @@ fun NumberEditor(phoneNumberState: MutableState<String>, modifier: Modifier = Mo
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         BasicTextField(
-            value = phoneNumberState.value,
-            textStyle = TextStyle(fontSize = 16.sp),
-            onValueChange = { phoneNumberState.value = it.take(ENTER_REGION_MAX_LEN) },
+            value = phoneNumber,
+            textStyle = TextStyle(
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = StolzlFontFamily,
+            ),
+            onValueChange = { authViewModel.setPhoneNumber(it.take(ENTER_REGION_MAX_LEN)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             visualTransformation = ::mobileNumberFilter,
             modifier = Modifier.padding(16.dp)
         )
     }
+}
 
 private fun mobileNumberFilter(text: AnnotatedString): TransformedText {
-    val trimmed = text.text.take(PAT_PHONE_NUMBER.length)
+    val trimmed = text.text.take(HINT_PHONE_NUMBER.length)
 
     val annotatedString = AnnotatedString.Builder().run {
         append("+7 (")
@@ -154,10 +129,11 @@ private fun mobileNumberFilter(text: AnnotatedString): TransformedText {
             }
         }
 
-        pushStyle(SpanStyle(color = Color.LightGray))
+        pushStyle(SpanStyle(color = Color.LightGray, fontWeight = FontWeight.Bold))
 
-        val left = PAT_PHONE_NUMBER.length - length
-        append(PAT_PHONE_NUMBER.takeLast(left))
+        val left = HINT_PHONE_NUMBER.length - length
+        append(HINT_PHONE_NUMBER.takeLast(left))
+
         toAnnotatedString()
     }
 
@@ -175,11 +151,11 @@ private fun mobileNumberFilter(text: AnnotatedString): TransformedText {
 
             return when {
                 offset <= 3 -> 0
-                offset <= 6 -> (offset - 4)
-                offset <= 8 -> (offset - 5)
-                offset <= 12 -> (offset - 6)
-                offset <= 15 -> (offset - 7)
-                offset <= 18 -> (offset - 8)
+                offset <= 6 -> offset - 4
+                offset <= 8 -> offset - 5
+                offset <= 12 -> offset - 6
+                offset <= 15 -> offset - 7
+                offset <= 18 -> offset - 8
                 else -> 10
             }.coerceIn(0..text.length)
         }
@@ -190,10 +166,12 @@ private fun mobileNumberFilter(text: AnnotatedString): TransformedText {
 
 @Composable
 private fun ConfirmPhoneButton(
-    phoneNumberState: State<String>,
+    authViewModel: AuthViewModel,
     modifier: Modifier = Modifier
 ) {
-    val phoneNumber by phoneNumberState
+    val navController = LocalAuthNavController.current
+
+    val phoneNumber by authViewModel.phoneNumberState.collectAsState()
 
     val isButtonEnabled by remember {
         derivedStateOf { phoneNumber.length == ENTER_REGION_MAX_LEN }
@@ -206,16 +184,15 @@ private fun ConfirmPhoneButton(
             containerColor = Color.Black,
             disabledContainerColor = Color.LightGray
         ),
-        onClick = {
-            // TODO: Confirm phone number
-        }
+        onClick = { navController.navigateToPasswordScreen() }
     ) {
         Text(
             text = stringResource(id = R.string.contine),
             color = Color.White,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(16.dp)
+            fontFamily = StolzlFontFamily,
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp)
         )
     }
 }

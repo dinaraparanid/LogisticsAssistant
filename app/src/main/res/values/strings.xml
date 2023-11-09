@@ -5,4 +5,8 @@
     <string name="welcome_label">Welcome to BIA.Logistics Assistant</string>
     <string name="enter_number_for_auth">Enter your authorization number</string>
     <string name="contine">Continue</string>
+    <string name="enter_password">Enter password</string>
+    <string name="back">Back</string>
+    <string name="obtain_password">To obtain the password, contact the supervisor</string>
+    <string name="incorrect_password">Incorrect password</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.presentation.theme
+package com.paranid5.biatestapp.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

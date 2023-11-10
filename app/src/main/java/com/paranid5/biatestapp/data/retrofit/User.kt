@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.data
+package com.paranid5.biatestapp.data.retrofit
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

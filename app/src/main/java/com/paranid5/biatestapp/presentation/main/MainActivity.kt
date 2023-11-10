@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.paranid5.biatestapp.data.User
+import com.paranid5.biatestapp.data.retrofit.User
 import com.paranid5.biatestapp.presentation.ui.theme.BIATestAppTheme
 
 class MainActivity : ComponentActivity() {

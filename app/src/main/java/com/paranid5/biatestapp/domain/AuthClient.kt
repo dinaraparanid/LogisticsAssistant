@@ -1,6 +1,6 @@
 package com.paranid5.biatestapp.domain
 
-import com.paranid5.biatestapp.data.User
+import com.paranid5.biatestapp.data.retrofit.User
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -2,7 +2,7 @@ package com.paranid5.biatestapp.presentation.auth
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.paranid5.biatestapp.data.User
+import com.paranid5.biatestapp.data.retrofit.User
 import com.paranid5.biatestapp.domain.AuthClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

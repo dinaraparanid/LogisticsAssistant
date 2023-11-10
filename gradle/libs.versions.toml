@@ -16,6 +16,7 @@ kotlinxDateTime = "0.4.1"
 coil = "2.5.0"
 room = "2.6.0"
 ksp = "1.9.0-1.0.12"
+datastore = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +44,7 @@ coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

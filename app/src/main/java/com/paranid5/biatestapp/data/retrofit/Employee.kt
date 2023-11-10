@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class User(
+data class Employee(
     val name: String = "Савченко Арсений Дмитриевич",
     val password: String = "101010",
-    @SerializedName("portrait_url") val portraitUrl: String = "https://avatars.githubusercontent.com/u/58735614",
+    @SerializedName("avatar_url") val avatarUrl: String = "https://avatars.githubusercontent.com/u/58735614",
     val job: String = "Разработчик",
     @SerializedName("employee_id") val employeeId: Long = 1234,
     @SerializedName("phone_number") val phoneNumber: String = "+7 800 555-35-35",

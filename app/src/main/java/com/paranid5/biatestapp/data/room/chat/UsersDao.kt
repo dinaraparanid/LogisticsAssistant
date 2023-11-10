@@ -7,17 +7,32 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UsersDao : BaseDao<User> {
-    @Query("""
-        SELECT * FROM User WHERE id = (
-            SELECT to_user_id FROM Message WHERE from_user_id = :fromUserId
-        )
-    """)
-    suspend fun getAllContacts(fromUserId: Int): List<User>
+    @Query("SELECT * FROM Users WHERE job_id = :jobId")
+    suspend fun getUserByJobId(jobId: Long): User?
 
-    @Query("""
-        SELECT * FROM User WHERE id = (
-            SELECT to_user_id FROM Message WHERE from_user_id = :fromUserId
+    @Query(
+        """
+        SELECT *
+        FROM Users
+        WHERE job_id = (
+            SELECT to_user_id
+            FROM Messages
+            WHERE from_user_id = :fromUserId
         )
-    """)
-    fun getAllContactsFlow(fromUserId: Int): Flow<List<User>>
+    """
+    )
+    suspend fun getAllContacts(fromUserId: Long): List<User>
+
+    @Query(
+        """
+        SELECT *
+        FROM Users
+        WHERE job_id = (
+            SELECT to_user_id
+            FROM Messages
+            WHERE from_user_id = :fromUserId
+        )
+    """
+    )
+    fun getAllContactsFlow(fromUserId: Long): Flow<List<User>>
 }

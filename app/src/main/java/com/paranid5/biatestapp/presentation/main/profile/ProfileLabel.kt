@@ -1,5 +1,6 @@
 package com.paranid5.biatestapp.presentation.main.profile
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,17 +19,14 @@ import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 fun ProfileLabel(modifier: Modifier = Modifier) {
     val colors = LocalAppColors.current.value
 
-    Box(
-        modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 16.dp)
-    ) {
+    Box(modifier.background(colors.background)) {
         Text(
             text = stringResource(id = R.string.profile),
             fontSize = 22.sp,
             color = colors.primary,
             fontWeight = FontWeight.Normal,
             fontFamily = StolzlFontFamily,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 16.dp)
         )
     }
 }

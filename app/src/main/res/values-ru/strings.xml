@@ -23,4 +23,18 @@
     <string name="notifications">Оповещения</string>
     <string name="sign_out">Выйти</string>
     <string name="shift_schedule">График смен</string>
+    <string name="employer">Работодатель</string>
+    <string name="january_msg">января</string>
+    <string name="february_msg">февраля</string>
+    <string name="march_msg">марта</string>
+    <string name="april_msg">апреля</string>
+    <string name="may_msg">мая</string>
+    <string name="june_msg">июня</string>
+    <string name="july_msg">июля</string>
+    <string name="august_msg">августа</string>
+    <string name="september_msg">сенятября</string>
+    <string name="october_msg">октября</string>
+    <string name="november_msg">ноября</string>
+    <string name="december_msg">декабря</string>
+    <string name="new_messages">Новые сообщения</string>
 </resources>

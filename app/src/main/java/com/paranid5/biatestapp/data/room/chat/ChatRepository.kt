@@ -23,35 +23,38 @@ class ChatRepository @Inject constructor(@ApplicationContext context: Context) {
 
     // ------------------------ Users ------------------------
 
-    suspend fun getAllContacts(fromUserId: Int) =
+    suspend fun getUserByJobId(jobId: Long) =
+        usersDao.getUserByJobId(jobId)
+
+    suspend fun getAllContacts(fromUserId: Long) =
         usersDao.getAllContacts(fromUserId)
 
-    fun getAllContactsFlow(fromUserId: Int) =
+    fun getAllContactsFlow(fromUserId: Long) =
         usersDao.getAllContactsFlow(fromUserId)
 
-    suspend fun insert(user: User) = usersDao.insert(user)
+    suspend fun insert(vararg users: User) = usersDao.insert(*users)
 
-    suspend fun update(user: User) = usersDao.update(user)
+    suspend fun update(vararg users: User) = usersDao.update(*users)
 
-    suspend fun delete(user: User) = usersDao.delete(user)
+    suspend fun delete(vararg users: User) = usersDao.delete(*users)
 
     // ------------------------ Messages ------------------------
 
-    suspend fun getAllMessagesBetweenUsers(selfId: Int, otherId: Int) =
+    suspend fun getAllMessagesBetweenUsers(selfId: Long, otherId: Long) =
         messagesDao.getAllMessagesBetweenUsers(selfId, otherId)
 
-    fun getAllMessagesBetweenUsersFlow(selfId: Int, otherId: Int) =
+    fun getAllMessagesBetweenUsersFlow(selfId: Long, otherId: Long) =
         messagesDao.getAllMessagesBetweenUsersFlow(selfId, otherId)
 
-    suspend fun getLatestMessageBetweenUsers(selfId: Int, otherId: Int) =
+    suspend fun getLatestMessageBetweenUsers(selfId: Long, otherId: Long) =
         messagesDao.getLatestMessageBetweenUsers(selfId, otherId)
 
-    fun getLatestMessageBetweenUsersFlow(selfId: Int, otherId: Int) =
+    fun getLatestMessageBetweenUsersFlow(selfId: Long, otherId: Long) =
         messagesDao.getLatestMessageBetweenUsersFlow(selfId, otherId)
 
-    suspend fun insert(message: Message) = messagesDao.insert(message)
+    suspend fun insert(vararg messages: DBMessage) = messagesDao.insert(*messages)
 
-    suspend fun update(message: Message) = messagesDao.update(message)
+    suspend fun update(vararg messages: DBMessage) = messagesDao.update(*messages)
 
-    suspend fun delete(message: Message) = messagesDao.delete(message)
+    suspend fun delete(vararg messages: DBMessage) = messagesDao.delete(*messages)
 }

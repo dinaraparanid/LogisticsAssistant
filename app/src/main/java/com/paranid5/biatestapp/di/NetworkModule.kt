@@ -1,7 +1,7 @@
 package com.paranid5.biatestapp.di
 
-import com.paranid5.biatestapp.domain.AuthClient
-import com.paranid5.biatestapp.domain.authRetrofit
+import com.paranid5.biatestapp.domain.BiaLogisticsClient
+import com.paranid5.biatestapp.domain.biaLogisticsRetrofit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,5 +13,6 @@ import javax.inject.Singleton
 class NetworkModule {
     @Singleton
     @Provides
-    fun provideAuthClient() = authRetrofit.create(AuthClient::class.java)
+    fun provideBiaLogisticsClient(): BiaLogisticsClient =
+        biaLogisticsRetrofit.create(BiaLogisticsClient::class.java)
 }

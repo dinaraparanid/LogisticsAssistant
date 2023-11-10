@@ -23,4 +23,18 @@
     <string name="notifications">Notifications</string>
     <string name="sign_out">Sign out</string>
     <string name="shift_schedule">Shift schedule</string>
+    <string name="employer">Employer</string>
+    <string name="january_msg">january</string>
+    <string name="february_msg">february</string>
+    <string name="march_msg">march</string>
+    <string name="april_msg">april</string>
+    <string name="may_msg">may</string>
+    <string name="june_msg">june</string>
+    <string name="july_msg">july</string>
+    <string name="august_msg">august</string>
+    <string name="september_msg">september</string>
+    <string name="october_msg">october</string>
+    <string name="november_msg">november</string>
+    <string name="december_msg">december</string>
+    <string name="new_messages">New messages</string>
 </resources>

@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.paranid5.biatestapp.data.room.Converters
 
 @Database(
-    entities = [User::class, Message::class],
+    entities = [User::class, DBMessage::class],
     version = 1,
     exportSchema = false
 )

@@ -40,6 +40,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = listOf("-Xcontext-receivers")
     }
     buildFeatures {
         compose = true
@@ -65,15 +66,17 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation)
 
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+    implementation(libs.datastore)
+
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
-
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
 
     implementation(libs.gson)
 

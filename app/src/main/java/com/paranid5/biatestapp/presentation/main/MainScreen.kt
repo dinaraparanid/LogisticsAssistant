@@ -8,17 +8,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.paranid5.biatestapp.presentation.app_bar.MainAppBar
 import com.paranid5.biatestapp.presentation.main.chat.ChatScreen
+import com.paranid5.biatestapp.presentation.main.chat.ChatViewModel
 import com.paranid5.biatestapp.presentation.main.schedules.SchedulesScreen
 import com.paranid5.biatestapp.presentation.main.profile.ProfileScreen
 import com.paranid5.biatestapp.presentation.main.tasks.TasksScreen
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    chatViewModel: ChatViewModel = viewModel()
+) {
     val colors = LocalAppColors.current.value
     val navController = LocalMainNavController.current
 
@@ -47,7 +52,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
             }
 
             composable(route = MainNavController.CHAT_SCREEN) {
-                ChatScreen(Modifier.fillMaxSize())
+                ChatScreen(chatViewModel = chatViewModel, modifier = Modifier.fillMaxSize())
             }
 
             composable(route = MainNavController.PROFILE_SCREEN) {

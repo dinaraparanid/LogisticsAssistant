@@ -2,8 +2,11 @@ package com.paranid5.biatestapp.presentation.auth
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.paranid5.biatestapp.data.retrofit.User
-import com.paranid5.biatestapp.domain.AuthClient
+import com.paranid5.biatestapp.data.StorageHandler
+import com.paranid5.biatestapp.data.retrofit.Employee
+import com.paranid5.biatestapp.data.room.chat.ChatRepository
+import com.paranid5.biatestapp.data.room.chat.User
+import com.paranid5.biatestapp.domain.BiaLogisticsClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val authClient: AuthClient
+    private val biaLogisticsClient: BiaLogisticsClient,
+    private val chatRepository: ChatRepository,
+    private val storageHandler: StorageHandler
 ) : ViewModel() {
     private companion object {
         private const val PHONE_NUMBER = "phone_number"
@@ -40,24 +45,30 @@ class AuthViewModel @Inject constructor(
         savedStateHandle[PASSWORD] = _passwordState.updateAndGet { password }
     }
 
-    private val _userState = MutableStateFlow(User())
+    private val _employeeState = MutableStateFlow(Employee())
 
-    val userState = _userState.asStateFlow()
+    val userState = _employeeState.asStateFlow()
 
     suspend fun isPasswordCorrect(): Boolean {
         // Неккоректная base ссылка-заглушка,
         // представим, что мы ничего не видели, и она корректная :)
 
-        val user = _userState.updateAndGet {
+        val employee = _employeeState.updateAndGet {
             runCatching {
-                authClient.getUserPasswordByPhoneNumber(
+                biaLogisticsClient.getEmployeeByPhoneNumber(
                     phoneNumber = _phoneNumberState.value
                 ).body()
-            }.getOrNull() ?: User(phoneNumber = _phoneNumberState.value) // Типа вернул юзера
+            }.getOrNull() ?: Employee(phoneNumber = _phoneNumberState.value) // Типа вернул юзера
         }
 
-        val password = user.password
+        storeEmployee(employee)
 
+        val password = employee.password
         return _passwordState.value == password
+    }
+
+    private suspend fun storeEmployee(employee: Employee) {
+        storageHandler.storeEmployee(employee)
+        chatRepository.insert(User(employee))
     }
 }

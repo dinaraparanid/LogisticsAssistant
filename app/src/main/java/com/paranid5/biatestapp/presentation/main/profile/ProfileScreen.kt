@@ -1,18 +1,13 @@
 package com.paranid5.biatestapp.presentation.main.profile
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,7 +36,7 @@ import coil.size.Precision
 import coil.size.Scale
 import com.paranid5.biatestapp.R
 import com.paranid5.biatestapp.presentation.main.LocalMainActivity
-import com.paranid5.biatestapp.presentation.main.LocalUser
+import com.paranid5.biatestapp.presentation.main.LocalEmployee
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 import com.paranid5.biatestapp.presentation.ui.utils.ext.toPhoneNumberFormat
@@ -49,13 +44,13 @@ import com.paranid5.biatestapp.presentation.ui.utils.ext.toPhoneNumberFormat
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier) {
     Column(modifier.verticalScroll(rememberScrollState())) {
-        MainUserInfo(
+        MainEmployeeInfo(
             Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
         )
 
-        UserDescription(
+        EmployeeDescription(
             Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 16.dp)
@@ -78,7 +73,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 // ------------------------- Main User Info -------------------------
 
 @Composable
-private fun MainUserInfo(modifier: Modifier = Modifier) {
+private fun MainEmployeeInfo(modifier: Modifier = Modifier) {
     val colors = LocalAppColors.current.value
 
     Card(
@@ -92,10 +87,10 @@ private fun MainUserInfo(modifier: Modifier = Modifier) {
                     .padding(top = 16.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
-                UserPortrait(Modifier.size(68.dp))
+                EmployeeAvatar(Modifier.size(68.dp))
             }
 
-            UserNameJob(
+            EmployeeNameJob(
                 Modifier
                     .padding(
                         top = 12.dp,
@@ -110,9 +105,9 @@ private fun MainUserInfo(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun UserPortrait(modifier: Modifier = Modifier) {
+private fun EmployeeAvatar(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val user = LocalUser.current
+    val employee = LocalEmployee.current
 
     AsyncImage(
         contentDescription = stringResource(id = R.string.profile),
@@ -120,7 +115,7 @@ private fun UserPortrait(modifier: Modifier = Modifier) {
         alignment = Alignment.Center,
         modifier = modifier.clip(CircleShape),
         model = ImageRequest.Builder(context)
-            .data(user.portraitUrl)
+            .data(employee.avatarUrl)
             .placeholder(R.drawable.profile_icon)
             .fallback(R.drawable.profile_icon)
             .error(R.drawable.profile_icon)
@@ -135,13 +130,13 @@ private fun UserPortrait(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun UserNameJob(modifier: Modifier = Modifier) {
+private fun EmployeeNameJob(modifier: Modifier = Modifier) {
     val colors = LocalAppColors.current.value
-    val user = LocalUser.current
+    val employee = LocalEmployee.current
 
     Column(modifier) {
         Text(
-            text = user.name,
+            text = employee.name,
             color = colors.primary,
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal,
@@ -155,7 +150,7 @@ private fun UserNameJob(modifier: Modifier = Modifier) {
         Spacer(Modifier.height(4.dp))
 
         Text(
-            text = user.job,
+            text = employee.job,
             color = colors.onPrimary,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
@@ -171,9 +166,9 @@ private fun UserNameJob(modifier: Modifier = Modifier) {
 // ------------------------- User Description -------------------------
 
 @Composable
-private fun UserDescription(modifier: Modifier = Modifier) {
+private fun EmployeeDescription(modifier: Modifier = Modifier) {
     val colors = LocalAppColors.current.value
-    val user = LocalUser.current
+    val employee = LocalEmployee.current
 
     Card(
         modifier = modifier,
@@ -181,9 +176,9 @@ private fun UserDescription(modifier: Modifier = Modifier) {
         colors = CardDefaults.cardColors(containerColor = colors.background)
     ) {
         Column(Modifier.fillMaxWidth()) {
-            UserDescriptionItem(
+            EmployeeDescriptionItem(
                 title = stringResource(id = R.string.employee_id),
-                userData = user.employeeId.toString(),
+                userData = employee.employeeId.toString(),
                 modifier = Modifier.padding(
                     top = 16.dp,
                     start = 16.dp,
@@ -192,27 +187,27 @@ private fun UserDescription(modifier: Modifier = Modifier) {
                 )
             )
 
-            UserDescriptionItem(
+            EmployeeDescriptionItem(
                 title = stringResource(id = R.string.phone_number),
-                userData = user.phoneNumber.toPhoneNumberFormat(),
+                userData = employee.phoneNumber.toPhoneNumberFormat(),
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
             )
 
-            UserDescriptionItem(
+            EmployeeDescriptionItem(
                 title = stringResource(id = R.string.citizenship),
-                userData = user.citizenship,
+                userData = employee.citizenship,
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
             )
 
-            UserDescriptionItem(
+            EmployeeDescriptionItem(
                 title = stringResource(id = R.string.car),
-                userData = user.car,
+                userData = employee.car,
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
             )
 
-            UserDescriptionItem(
+            EmployeeDescriptionItem(
                 title = stringResource(id = R.string.car_number),
-                userData = user.carNumber,
+                userData = employee.carNumber,
                 modifier = Modifier.padding(
                     top = 8.dp,
                     start = 16.dp,
@@ -225,7 +220,7 @@ private fun UserDescription(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun UserDescriptionItem(
+private fun EmployeeDescriptionItem(
     title: String,
     userData: String,
     modifier: Modifier = Modifier,

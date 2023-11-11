@@ -11,14 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -49,6 +47,7 @@ import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.MiddleGray
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 import com.paranid5.biatestapp.presentation.ui.utils.ext.pxToDp
+import kotlinx.coroutines.flow.update
 import kotlinx.datetime.LocalDate
 import java.util.SortedMap
 import java.util.SortedSet
@@ -57,10 +56,15 @@ import java.util.SortedSet
 fun MessagesList(
     itemsInListState: MutableState<Int>,
     listState: LazyListState,
-    newMessageIdState: MutableIntState,
     chatViewModel: ChatViewModel,
     modifier: Modifier = Modifier
 ) {
+    // ------------------- Messages Presentation -------------------
+
+    val messages by chatViewModel.messagesState.collectAsState()
+    val messagesMap = associateMessagesToDates(messages)
+    val sortedMessages = messages.sorted()
+
     val curVisibleItemIndex by remember {
         derivedStateOf {
             listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
@@ -71,9 +75,13 @@ fun MessagesList(
         mutableIntStateOf(curVisibleItemIndex)
     }
 
-    val messages by chatViewModel.messagesState.collectAsState()
-    val messagesMap = associateMessagesToDates(messages)
-    val sortedMessages = messages.sorted()
+    // ------------------- Unread Messages -------------------
+
+    val newMessageNotDisposedState = LocalNewMessageNotDisposed.current
+    val newMessagesAmountShownState = LocalNewMessagesAmountShown.current
+
+    val isNewMessageDisposed by newMessageNotDisposedState.collectAsState()
+    val unreadMessages by chatViewModel.unreadMessagesState.collectAsState()
 
     var newMessagesShown by remember {
         mutableStateOf(false)
@@ -83,6 +91,16 @@ fun MessagesList(
         mutableIntStateOf(-1)
     }
 
+    var newMessageId by remember {
+        mutableIntStateOf(-1)
+    }
+
+    val unreadMessagesAmount by remember {
+        derivedStateOf { unreadMessages.size }
+    }
+
+    // -----------------------------------------------------------
+
     LaunchedEffect(newMessageIndex) {
         if (newMessageIndex != -1)
             listState.scrollToItem(newMessageIndex)
@@ -90,7 +108,6 @@ fun MessagesList(
 
     LaunchedEffect(curVisibleItemIndex) {
         lastVisibleItemIndex = maxOf(curVisibleItemIndex, lastVisibleItemIndex)
-        println(lastVisibleItemIndex + 1)
 
         chatViewModel.readMessages(
             *sortedMessages
@@ -99,6 +116,15 @@ fun MessagesList(
                 .onEach { println(it) }
                 .toTypedArray()
         )
+    }
+
+    LaunchedEffect(newMessageId) {
+        newMessageNotDisposedState.update { newMessageId > 0 }
+    }
+
+    LaunchedEffect(unreadMessagesAmount, isNewMessageDisposed) {
+        if (isNewMessageDisposed)
+            newMessagesAmountShownState.update { unreadMessagesAmount }
     }
 
     LazyColumn(
@@ -119,10 +145,10 @@ fun MessagesList(
             itemsInListState.value += msgs.size
 
             items(msgs.toList()) {
-                if ((!it.read && !newMessagesShown) || newMessageIdState.intValue == it.id) {
+                if ((!it.read && !newMessagesShown) || newMessageId == it.id) {
                     newMessagesShown = true
                     newMessageIndex = newMessagesCnt
-                    newMessageIdState.intValue = it.id
+                    newMessageId = it.id
 
                     NewMessagesLabel(Modifier.fillMaxWidth())
                     Spacer(modifier = Modifier.height(12.dp))

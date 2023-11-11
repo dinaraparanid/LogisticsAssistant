@@ -59,4 +59,10 @@ interface MessagesDao : BaseDao<DBMessage> {
 
     @Query("UPDATE MESSAGES SET read = 1")
     suspend fun readAllMessages()
+
+    @Query("SELECT id FROM Messages WHERE read = 0")
+    suspend fun unreadMessages(): List<Int>
+
+    @Query("SELECT id FROM Messages WHERE read = 0")
+    fun unreadMessagesFlow(): Flow<List<Int>>
 }

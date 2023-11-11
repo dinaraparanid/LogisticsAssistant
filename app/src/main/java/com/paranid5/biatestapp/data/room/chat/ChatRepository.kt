@@ -54,6 +54,10 @@ class ChatRepository @Inject constructor(@ApplicationContext context: Context) {
 
     suspend fun readAllMessages() = messagesDao.readAllMessages()
 
+    suspend fun unreadMessages() = messagesDao.unreadMessages()
+
+    fun unreadMessagesFlow() = messagesDao.unreadMessagesFlow()
+
     suspend fun insert(vararg messages: DBMessage) = messagesDao.insert(*messages)
 
     suspend fun update(vararg messages: DBMessage) = messagesDao.update(*messages)

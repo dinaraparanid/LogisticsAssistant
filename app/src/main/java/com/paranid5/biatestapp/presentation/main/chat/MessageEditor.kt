@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -43,6 +42,7 @@ import com.paranid5.biatestapp.presentation.ui.theme.LightGray
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.MiddleGray
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @Composable
@@ -50,10 +50,11 @@ fun MessageEditor(
     chatViewModel: ChatViewModel,
     itemsInListState: State<Int>,
     listState: LazyListState,
-    newMessageIdState: MutableIntState,
     modifier: Modifier = Modifier
 ) {
     val colors = LocalAppColors.current.value
+    val newMessageNotDisposedState = LocalNewMessageNotDisposed.current
+
     val coroutineScope = rememberCoroutineScope()
     val text by chatViewModel.messageState.collectAsState()
 
@@ -119,7 +120,7 @@ fun MessageEditor(
                 IconButton(
                     enabled = isSendButtonEnabled,
                     onClick = {
-                        newMessageIdState.intValue = -1
+                        newMessageNotDisposedState.update { false }
 
                         coroutineScope.launch {
                             chatViewModel.sendMessage()

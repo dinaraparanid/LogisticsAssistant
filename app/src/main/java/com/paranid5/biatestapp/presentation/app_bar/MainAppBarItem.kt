@@ -42,7 +42,7 @@ fun MainAppBarItem(
     iconView: IconView,
     description: String,
     onItemClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val colors = LocalAppColors.current.value
     val navController = LocalMainNavController.current
@@ -65,15 +65,11 @@ fun MainAppBarItem(
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(containerColor = cardColor),
             content = {
-               Box(
-                   Modifier
-                       .fillMaxWidth()
-                       .padding(vertical = 4.dp, horizontal = 16.dp)
-               ) {
+               Box(Modifier.fillMaxWidth()) {
                    iconView(
                        contentColor,
                        description,
-                       Modifier
+                       Modifier.padding(vertical = 4.dp, horizontal = 16.dp)
                    )
                }
             },

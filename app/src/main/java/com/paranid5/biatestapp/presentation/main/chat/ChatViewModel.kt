@@ -78,6 +78,12 @@ class ChatViewModel @Inject constructor(
         savedStateHandle[MESSAGE] = _messageState.updateAndGet { message }
     }
 
+    val unreadMessagesState by lazy {
+        chatRepository
+            .unreadMessagesFlow()
+            .stateIn(viewModelScope, SharingStarted.Eagerly, listOf())
+    }
+
     suspend fun loadEmployer(): Employer? {
         val employee = employeeState.value ?: return null
 

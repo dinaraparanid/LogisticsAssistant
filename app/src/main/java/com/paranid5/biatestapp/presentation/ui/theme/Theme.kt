@@ -42,14 +42,14 @@ fun BIATestAppTheme(
     content: @Composable () -> Unit
 ) {
     // При желании, можно задать системную тему
-//    val appColors = AppColors(
-//        when {
-//            darkTheme -> DarkColorScheme
-//            else -> LightColorScheme
-//        }
-//    )
+    val appColors = AppColors(
+        when {
+            darkTheme -> DarkColorScheme
+            else -> LightColorScheme
+        }
+    )
 
-    val appColors = AppColors(LightColorScheme)
+//    val appColors = AppColors(LightColorScheme)
 
     val view = LocalView.current
 

@@ -81,6 +81,7 @@ fun MessagesList(
     val newMessagesAmountShownState = LocalNewMessagesAmountShown.current
 
     val isNewMessageDisposed by newMessageNotDisposedState.collectAsState()
+    val newMessagesAmountShown by newMessagesAmountShownState.collectAsState()
     val unreadMessages by chatViewModel.unreadMessagesState.collectAsState()
 
     var newMessagesShown by remember {
@@ -150,8 +151,11 @@ fun MessagesList(
                     newMessageIndex = newMessagesCnt
                     newMessageId = it.id
 
-                    NewMessagesLabel(Modifier.fillMaxWidth())
-                    Spacer(modifier = Modifier.height(12.dp))
+                    if (newMessagesAmountShown > 0) {
+                        NewMessagesLabel(Modifier.fillMaxWidth())
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
                     ++itemsInListState.value
                 }
 

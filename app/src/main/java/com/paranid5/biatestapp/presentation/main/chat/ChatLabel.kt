@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.size.Precision
@@ -26,6 +27,7 @@ import com.paranid5.biatestapp.R
 import com.paranid5.biatestapp.presentation.main.LocalEmployer
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
+import com.paranid5.biatestapp.presentation.ui.utils.HumanPlaceholder
 
 @Composable
 fun ChatLabel(modifier: Modifier = Modifier) {
@@ -51,18 +53,18 @@ fun ChatLabel(modifier: Modifier = Modifier) {
 @Composable
 private fun EmployerAvatar(modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val colors = LocalAppColors.current.value
     val employer = LocalEmployer.current
 
-    AsyncImage(
+    SubcomposeAsyncImage(
         contentDescription = stringResource(id = R.string.employer),
         contentScale = ContentScale.FillBounds,
         alignment = Alignment.Center,
         modifier = modifier.clip(CircleShape),
+        loading = { HumanPlaceholder(tint = colors.primary) },
+        error = { HumanPlaceholder(tint = colors.primary) },
         model = ImageRequest.Builder(context)
             .data(employer.avatarUrl)
-            .placeholder(R.drawable.profile_icon)
-            .fallback(R.drawable.profile_icon)
-            .error(R.drawable.profile_icon)
             .networkCachePolicy(CachePolicy.ENABLED)
             .diskCachePolicy(CachePolicy.ENABLED)
             .memoryCachePolicy(CachePolicy.ENABLED)

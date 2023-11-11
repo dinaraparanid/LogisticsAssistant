@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -116,6 +117,7 @@ private fun PhoneNumberEditor(authViewModel: AuthViewModel, modifier: Modifier =
                 fontFamily = StolzlFontFamily,
                 color = colors.primary
             ),
+            cursorBrush = SolidColor(colors.primary),
             onValueChange = { authViewModel.setPhoneNumber(it.take(ENTER_REGION_MAX_LEN)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             visualTransformation = ::mobileNumberFilter,

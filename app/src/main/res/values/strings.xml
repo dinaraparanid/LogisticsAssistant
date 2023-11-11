@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BIATestApp</string>
+    <string name="app_name">BIA. Logistics Assistant</string>
     <string name="bia" translatable="false">BIA</string>
     <string name="logistics_assistant">Logistics Assistant</string>
     <string name="welcome_label">Welcome to BIA.Logistics Assistant</string>

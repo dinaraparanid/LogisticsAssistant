@@ -29,16 +29,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.size.Precision
 import coil.size.Scale
 import com.paranid5.biatestapp.R
-import com.paranid5.biatestapp.presentation.main.LocalMainActivity
 import com.paranid5.biatestapp.presentation.main.LocalEmployee
+import com.paranid5.biatestapp.presentation.main.LocalMainActivity
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
+import com.paranid5.biatestapp.presentation.ui.utils.HumanPlaceholder
 import com.paranid5.biatestapp.presentation.ui.utils.ext.toPhoneNumberFormat
 
 @Composable
@@ -107,18 +108,18 @@ private fun MainEmployeeInfo(modifier: Modifier = Modifier) {
 @Composable
 private fun EmployeeAvatar(modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val colors = LocalAppColors.current.value
     val employee = LocalEmployee.current
 
-    AsyncImage(
+    SubcomposeAsyncImage(
         contentDescription = stringResource(id = R.string.profile),
         contentScale = ContentScale.FillBounds,
         alignment = Alignment.Center,
         modifier = modifier.clip(CircleShape),
+        loading = { HumanPlaceholder(tint = colors.primary) },
+        error = { HumanPlaceholder(tint = colors.primary) },
         model = ImageRequest.Builder(context)
             .data(employee.avatarUrl)
-            .placeholder(R.drawable.profile_icon)
-            .fallback(R.drawable.profile_icon)
-            .error(R.drawable.profile_icon)
             .networkCachePolicy(CachePolicy.ENABLED)
             .diskCachePolicy(CachePolicy.ENABLED)
             .memoryCachePolicy(CachePolicy.ENABLED)

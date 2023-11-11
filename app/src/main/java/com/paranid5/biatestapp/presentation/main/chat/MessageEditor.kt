@@ -54,6 +54,7 @@ fun MessageEditor(
 ) {
     val colors = LocalAppColors.current.value
     val newMessageNotDisposedState = LocalNewMessageNotDisposed.current
+    val newMessagesAmountShownState = LocalNewMessagesAmountShown.current
 
     val coroutineScope = rememberCoroutineScope()
     val text by chatViewModel.messageState.collectAsState()
@@ -121,6 +122,7 @@ fun MessageEditor(
                     enabled = isSendButtonEnabled,
                     onClick = {
                         newMessageNotDisposedState.update { false }
+                        newMessagesAmountShownState.update { 0 }
 
                         coroutineScope.launch {
                             chatViewModel.sendMessage()
@@ -134,7 +136,7 @@ fun MessageEditor(
                     Icon(
                         painter = painterResource(id = R.drawable.send_message),
                         contentDescription = stringResource(id = R.string.send_message),
-                        tint = colors.primary,
+                        tint = Color.Black,
                         modifier = Modifier.fillMaxSize()
                     )
                 }

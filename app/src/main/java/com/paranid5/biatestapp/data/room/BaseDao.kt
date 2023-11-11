@@ -8,10 +8,10 @@ import androidx.room.Update
 
 @Dao
 interface BaseDao<T : Entity> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(vararg entities: T): List<Long>
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun update(vararg entities: T)
 
     @Delete

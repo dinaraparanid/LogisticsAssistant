@@ -52,6 +52,8 @@ class ChatRepository @Inject constructor(@ApplicationContext context: Context) {
     fun getLatestMessageBetweenUsersFlow(selfId: Long, otherId: Long) =
         messagesDao.getLatestMessageBetweenUsersFlow(selfId, otherId)
 
+    suspend fun readAllMessages() = messagesDao.readAllMessages()
+
     suspend fun insert(vararg messages: DBMessage) = messagesDao.insert(*messages)
 
     suspend fun update(vararg messages: DBMessage) = messagesDao.update(*messages)

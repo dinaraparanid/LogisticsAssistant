@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation)
+    implementation(libs.constraint.layout)
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)

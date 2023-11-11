@@ -37,4 +37,6 @@
     <string name="november_msg">ноября</string>
     <string name="december_msg">декабря</string>
     <string name="new_messages">Новые сообщения</string>
+    <string name="send_message">Отправить сообщение</string>
+    <string name="enter_message">Напишите сообщение</string>
 </resources>

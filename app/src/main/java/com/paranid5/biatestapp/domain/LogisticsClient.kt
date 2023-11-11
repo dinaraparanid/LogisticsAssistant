@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -35,6 +36,13 @@ interface BiaLogisticsClient {
         @Query("employee_id") employeeId: Long,
         @Query("employer_id") employerId: Long,
         @Query("message") message: String
+    ): Response<NetworkMessage>
+
+    @PATCH("/messages")
+    suspend fun readMessage(
+        @Query("employee_id") employeeId: Long,
+        @Query("employer_id") employerId: Long,
+        @Query("send_time") sendTime: String
     ): Response<NetworkMessage>
 }
 

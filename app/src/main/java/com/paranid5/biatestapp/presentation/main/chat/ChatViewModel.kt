@@ -2,6 +2,8 @@ package com.paranid5.biatestapp.presentation.main.chat
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.paranid5.biatestapp.data.Message
 import com.paranid5.biatestapp.data.StorageHandler
 import com.paranid5.biatestapp.data.retrofit.Employer
 import com.paranid5.biatestapp.data.retrofit.NetworkMessage
@@ -11,9 +13,15 @@ import com.paranid5.biatestapp.data.room.chat.User
 import com.paranid5.biatestapp.domain.BiaLogisticsClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,8 +34,10 @@ class ChatViewModel @Inject constructor(
     private companion object {
         private const val EMPLOYER = "employer"
         private const val NETWORK_MESSAGES = "network_msg"
-        private const val DB_MESSAGES = "db_msg"
+        private const val MESSAGE = "message"
     }
+
+    val employeeState = storageHandler.employeeState
 
     private val _employerState = MutableStateFlow(
         savedStateHandle[EMPLOYER] ?: storageHandler.employerState.value
@@ -41,28 +51,35 @@ class ChatViewModel @Inject constructor(
         employer?.let { chatRepository.insert(User(it)) }
     }
 
-    private val _networkMessagesState = MutableStateFlow(
+    private val networkMessagesState = MutableStateFlow(
         savedStateHandle[NETWORK_MESSAGES] ?: emptyList<NetworkMessage>()
     )
 
-    val networkMessagesState = _networkMessagesState.asStateFlow()
-
-    fun setNetworkMessages(networkMessages: List<NetworkMessage>) {
-        savedStateHandle[NETWORK_MESSAGES] = _networkMessagesState.updateAndGet { networkMessages }
+    private fun setNetworkMessages(networkMessages: List<NetworkMessage>) {
+        savedStateHandle[NETWORK_MESSAGES] = networkMessagesState.updateAndGet { networkMessages }
     }
 
-    private val _dbMessagesState = MutableStateFlow(
-        savedStateHandle[DB_MESSAGES] ?: emptyList<DBMessage>()
+    private val dbMessagesState by lazy {
+        chatRepository.getAllMessagesBetweenUsersFlow(
+            selfId = employeeState.value!!.employeeId,
+            otherId = employerState.value!!.employerId
+        ).stateIn(viewModelScope, SharingStarted.Eagerly, listOf())
+    }
+
+    val messagesState by lazy { dbMessagesState }
+
+    private val _messageState = MutableStateFlow(
+        savedStateHandle[MESSAGE] ?: ""
     )
 
-    val dbMessagesState = _dbMessagesState.asStateFlow()
+    val messageState = _messageState.asStateFlow()
 
-    fun setDbMessages(dbMessages: List<DBMessage>) {
-        savedStateHandle[DB_MESSAGES] = _dbMessagesState.updateAndGet { dbMessages }
+    fun setMessage(message: String) {
+        savedStateHandle[MESSAGE] = _messageState.updateAndGet { message }
     }
 
     suspend fun loadEmployer(): Employer? {
-        val employee = storageHandler.employeeState.value ?: return null
+        val employee = employeeState.value ?: return null
 
         // Как будто получили работодателя
 
@@ -79,9 +96,9 @@ class ChatViewModel @Inject constructor(
         return employer
     }
 
-    private suspend fun loadMessagesFromNetwork(): List<NetworkMessage>? {
-        val employee = storageHandler.employeeState.value ?: return emptyList()
-        val employer = storageHandler.employerState.value ?: return emptyList()
+    suspend fun loadMessagesFromNetwork(): Unit? {
+        val employee = employeeState.value ?: return null
+        val employer = employerState.value ?: return null
 
         // Как будто получили список сообщений
 
@@ -99,23 +116,55 @@ class ChatViewModel @Inject constructor(
 
         return messages?.let { msgs ->
             chatRepository.insert(*msgs.map(::DBMessage).toTypedArray())
-            _networkMessagesState.updateAndGet { msgs }
+            setNetworkMessages(msgs)
         }
     }
 
-    private suspend fun loadMessagesFromDB(): List<DBMessage> {
-        val employee = storageHandler.employeeState.value ?: return emptyList()
-        val employer = storageHandler.employerState.value ?: return emptyList()
+    suspend fun sendMessage(): Message {
+        val employeeId = employeeState.value!!.employeeId
+        val employerId = employerState.value!!.employerId
+        val text = messageState.value
 
-        return _dbMessagesState.updateAndGet {
-            chatRepository.getAllMessagesBetweenUsers(
-                selfId = employee.employeeId,
-                otherId = employer.employerId
-            )
-        }
+        val message = runCatching {
+            logisticsClient.sendMessageToEmployer(
+                employeeId = employeeId,
+                employerId = employerId,
+                message = text
+            ).body()
+        }.getOrNull() ?: NetworkMessage(
+            fromUserId = employeeId,
+            toUserId = employerId,
+            text = text,
+            sendTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+            read = true // В настоящем API этого флага не должно быть, для удобства пусть будет
+        )
+
+        val dbMessage = DBMessage(message)
+        chatRepository.insert(dbMessage)
+        chatRepository.readAllMessages()
+
+        networkMessagesState.update { it + message }
+
+        _messageState.update { "" }
+        return message
     }
 
-    suspend fun loadMessages() = loadMessagesFromNetwork() ?: loadMessagesFromDB()
+    suspend fun readMessages(vararg messages: DBMessage) {
+        val employeeId = employeeState.value!!.employeeId
+        val employerId = employerState.value!!.employerId
+
+        messages.forEach { message ->
+            runCatching {
+                logisticsClient.readMessage(
+                    employeeId = employeeId,
+                    employerId = employerId,
+                    sendTime = message.sendTime.toString()
+                ).body()
+            }.getOrNull()
+        }
+
+        chatRepository.update(*messages.map { it.copy(read = true) }.toTypedArray())
+    }
 }
 
 private fun initialMessagesPlaceholder(employeeId: Long, employerId: Long) = listOf(

@@ -56,4 +56,7 @@ interface MessagesDao : BaseDao<DBMessage> {
     """
     )
     fun getLatestMessageBetweenUsersFlow(selfId: Long, otherId: Long): Flow<DBMessage?>
+
+    @Query("UPDATE MESSAGES SET read = 1")
+    suspend fun readAllMessages()
 }

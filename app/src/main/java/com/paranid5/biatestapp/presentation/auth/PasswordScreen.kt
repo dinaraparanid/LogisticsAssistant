@@ -63,6 +63,7 @@ import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 import com.paranid5.biatestapp.presentation.ui.utils.ext.pxToDp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -270,7 +271,10 @@ private fun ConfirmPasswordButton(
             manager.defaultVibrator
         }
 
-        else -> context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        else -> {
+            @Suppress("DEPRECATION")
+            context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        }
     }
 
     LaunchedEffect(key1 = password) {
@@ -299,14 +303,24 @@ private fun ConfirmPasswordButton(
                             )
                         )
 
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> vibrator.vibrate(
-                            VibrationEffect.createOneShot(
-                                200,
-                                VibrationEffect.DEFAULT_AMPLITUDE
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                            vibrator.vibrate(
+                                VibrationEffect.createWaveform(
+                                    longArrayOf(200, 200),
+                                    1
+                                )
                             )
-                        )
 
-                        else -> vibrator.vibrate(200)
+                            delay(400)
+                            vibrator.cancel()
+                        }
+
+                        else -> {
+                            @Suppress("DEPRECATION")
+                            vibrator.vibrate(longArrayOf(200, 200), 1)
+                            delay(400)
+                            vibrator.cancel()
+                        }
                     }
                 }
             }

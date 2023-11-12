@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.presentation.app_bar
+package com.paranid5.biatestapp.presentation.main.app_bar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

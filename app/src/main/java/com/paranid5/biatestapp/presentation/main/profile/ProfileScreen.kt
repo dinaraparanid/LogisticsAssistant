@@ -35,8 +35,9 @@ import coil.request.ImageRequest
 import coil.size.Precision
 import coil.size.Scale
 import com.paranid5.biatestapp.R
-import com.paranid5.biatestapp.presentation.main.LocalEmployee
-import com.paranid5.biatestapp.presentation.main.LocalMainActivity
+import com.paranid5.biatestapp.presentation.main.LocalMainNavController
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalEmployee
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalMainActivity
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
 import com.paranid5.biatestapp.presentation.ui.utils.HumanPlaceholder
@@ -132,6 +133,9 @@ private fun EmployeeAvatar(modifier: Modifier = Modifier) {
 
 @Composable
 private fun EmployeeNameJob(modifier: Modifier = Modifier) {
+    val navController = LocalMainNavController.current
+    navController.resetCurrentScreenStateToProfile()
+
     val colors = LocalAppColors.current.value
     val employee = LocalEmployee.current
 

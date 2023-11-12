@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.presentation.main.chat
+package com.paranid5.biatestapp.presentation.main.composition_locals
 
 import androidx.compose.runtime.compositionLocalOf
 import kotlinx.coroutines.flow.MutableStateFlow

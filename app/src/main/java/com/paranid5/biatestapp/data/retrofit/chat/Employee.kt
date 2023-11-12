@@ -1,4 +1,4 @@
-package com.paranid5.biatestapp.data.retrofit
+package com.paranid5.biatestapp.data.retrofit.chat
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

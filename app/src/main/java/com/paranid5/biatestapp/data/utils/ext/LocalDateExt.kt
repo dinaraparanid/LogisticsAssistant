@@ -7,6 +7,11 @@ import kotlinx.datetime.LocalDate
 fun LocalDate.toDateFormatString(context: Context) =
     "$dayOfMonth ${monthNumber.getLocalizedMonth(context)}"
 
+fun parseSimpleDate(dateStr: String): LocalDate {
+    val (day, month, year) = dateStr.split('.').map(String::toInt)
+    return LocalDate(year = year, monthNumber = month, dayOfMonth = day)
+}
+
 private fun Int.getLocalizedMonth(context: Context) = when (this) {
     1 -> context.resources.getString(R.string.january_msg)
     2 -> context.resources.getString(R.string.february_msg)

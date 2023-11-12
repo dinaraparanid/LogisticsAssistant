@@ -1,5 +1,6 @@
-package com.paranid5.biatestapp.presentation.app_bar
+package com.paranid5.biatestapp.presentation.main.app_bar
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,8 +26,7 @@ import androidx.compose.ui.zIndex
 import com.paranid5.biatestapp.R
 import com.paranid5.biatestapp.presentation.main.LocalMainNavController
 import com.paranid5.biatestapp.presentation.main.MainNavController
-import com.paranid5.biatestapp.presentation.main.chat.LocalNewMessageNotDisposed
-import com.paranid5.biatestapp.presentation.main.chat.LocalNewMessagesAmountShown
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalNewMessagesAmountShown
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.Red
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
@@ -42,7 +42,7 @@ fun MainAppBar(modifier: Modifier = Modifier) {
     }
 
     BottomAppBar(
-        modifier = modifier,
+        modifier = modifier.animateContentSize(),
         containerColor = colors.background
     ) {
         MainAppBarItem(

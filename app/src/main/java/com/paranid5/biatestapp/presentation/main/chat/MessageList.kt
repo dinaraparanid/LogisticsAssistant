@@ -42,7 +42,9 @@ import com.paranid5.biatestapp.data.Message
 import com.paranid5.biatestapp.data.room.chat.DBMessage
 import com.paranid5.biatestapp.data.utils.ext.toDateFormatString
 import com.paranid5.biatestapp.data.utils.ext.toTimeFormatString
-import com.paranid5.biatestapp.presentation.main.LocalEmployee
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalEmployee
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalNewMessageNotDisposed
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalNewMessagesAmountShown
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.MiddleGray
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily

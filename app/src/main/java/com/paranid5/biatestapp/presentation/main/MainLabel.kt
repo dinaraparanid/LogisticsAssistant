@@ -9,9 +9,14 @@ import com.paranid5.biatestapp.presentation.main.chat.ChatLabel
 import com.paranid5.biatestapp.presentation.main.profile.ProfileLabel
 import com.paranid5.biatestapp.presentation.main.schedules.SchedulesLabel
 import com.paranid5.biatestapp.presentation.main.tasks.TasksLabel
+import com.paranid5.biatestapp.presentation.main.tasks.TasksViewModel
+import com.paranid5.biatestapp.presentation.main.tasks.selected_task.SelectedTaskLabel
 
 @Composable
-fun MainLabel(modifier: Modifier = Modifier) {
+fun MainLabel(
+    tasksViewModel: TasksViewModel,
+    modifier: Modifier = Modifier
+) {
     val navController = LocalMainNavController.current
     val curScreen by navController.currentScreenState.collectAsState()
 
@@ -27,5 +32,11 @@ fun MainLabel(modifier: Modifier = Modifier) {
 
         MainNavController.PROFILE_SCREEN ->
             ProfileLabel(modifier.fillMaxWidth())
+
+        MainNavController.SELECTED_TASK_SCREEN ->
+            SelectedTaskLabel(
+                tasksViewModel = tasksViewModel,
+                modifier = modifier.fillMaxWidth()
+            )
     }
 }

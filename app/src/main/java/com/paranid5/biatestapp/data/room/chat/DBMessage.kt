@@ -8,7 +8,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.paranid5.biatestapp.data.Message
-import com.paranid5.biatestapp.data.retrofit.NetworkMessage
+import com.paranid5.biatestapp.data.retrofit.chat.NetworkMessage
 import com.paranid5.biatestapp.data.utils.ext.readLocalDateTime
 import com.paranid5.biatestapp.data.utils.ext.writeLocalDateTime
 import kotlinx.datetime.LocalDateTime

@@ -1,6 +1,11 @@
 package com.paranid5.biatestapp.presentation.auth
 
+import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -256,6 +261,18 @@ private fun ConfirmPasswordButton(
 
     val coroutineScope = rememberCoroutineScope()
 
+    val vibrator = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val manager = context.getSystemService(
+                Context.VIBRATOR_MANAGER_SERVICE
+            ) as VibratorManager
+
+            manager.defaultVibrator
+        }
+
+        else -> context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    }
+
     LaunchedEffect(key1 = password) {
         isPasswordCorrectState.value = null
     }
@@ -274,13 +291,23 @@ private fun ConfirmPasswordButton(
                         authViewModel.isPasswordCorrect()
                     }
 
-                    if (isPasswordCorrect == true)
-                        context.startActivity(
+                    when {
+                        isPasswordCorrect == true -> context.startActivity(
                             Intent(context, MainActivity::class.java).putExtra(
                                 MainActivity.USER_KEY,
                                 authViewModel.userState.value
                             )
                         )
+
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> vibrator.vibrate(
+                            VibrationEffect.createOneShot(
+                                200,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                        )
+
+                        else -> vibrator.vibrate(200)
+                    }
                 }
             }
         ) {

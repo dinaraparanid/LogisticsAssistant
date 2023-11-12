@@ -5,8 +5,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.paranid5.biatestapp.data.retrofit.Employee
-import com.paranid5.biatestapp.data.retrofit.Employer
+import com.paranid5.biatestapp.data.retrofit.chat.Employee
+import com.paranid5.biatestapp.data.retrofit.chat.Employer
 import kotlinx.parcelize.Parcelize
 import com.paranid5.biatestapp.data.room.Entity as BaseEntity
 

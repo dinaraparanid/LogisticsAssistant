@@ -8,9 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.paranid5.biatestapp.data.retrofit.Employee
+import com.paranid5.biatestapp.data.retrofit.chat.Employee
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalEmployee
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalMainActivity
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalNewMessageNotDisposed
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalNewMessagesAmountShown
 import com.paranid5.biatestapp.presentation.ui.theme.BIATestAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -35,7 +40,9 @@ class MainActivity : ComponentActivity() {
                 CompositionLocalProvider(
                     LocalMainActivity provides this,
                     LocalMainNavController provides MainNavController(navController),
-                    LocalEmployee provides employee
+                    LocalEmployee provides employee,
+                    LocalNewMessageNotDisposed provides MutableStateFlow(true),
+                    LocalNewMessagesAmountShown provides MutableStateFlow(0)
                 ) {
                     MainScreen(Modifier.fillMaxSize())
                 }

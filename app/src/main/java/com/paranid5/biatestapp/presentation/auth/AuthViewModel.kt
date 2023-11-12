@@ -3,7 +3,7 @@ package com.paranid5.biatestapp.presentation.auth
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.paranid5.biatestapp.data.StorageHandler
-import com.paranid5.biatestapp.data.retrofit.Employee
+import com.paranid5.biatestapp.data.retrofit.chat.Employee
 import com.paranid5.biatestapp.data.room.chat.ChatRepository
 import com.paranid5.biatestapp.data.room.chat.User
 import com.paranid5.biatestapp.domain.BiaLogisticsClient

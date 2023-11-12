@@ -38,6 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.paranid5.biatestapp.R
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalNewMessageNotDisposed
+import com.paranid5.biatestapp.presentation.main.composition_locals.LocalNewMessagesAmountShown
 import com.paranid5.biatestapp.presentation.ui.theme.LightGray
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.MiddleGray

@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.paranid5.biatestapp.data.Message
 import com.paranid5.biatestapp.data.StorageHandler
-import com.paranid5.biatestapp.data.retrofit.Employer
-import com.paranid5.biatestapp.data.retrofit.NetworkMessage
+import com.paranid5.biatestapp.data.retrofit.chat.Employer
+import com.paranid5.biatestapp.data.retrofit.chat.NetworkMessage
 import com.paranid5.biatestapp.data.room.chat.ChatRepository
 import com.paranid5.biatestapp.data.room.chat.DBMessage
 import com.paranid5.biatestapp.data.room.chat.User

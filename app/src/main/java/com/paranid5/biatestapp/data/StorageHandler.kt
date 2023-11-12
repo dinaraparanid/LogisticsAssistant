@@ -5,8 +5,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
-import com.paranid5.biatestapp.data.retrofit.Employee
-import com.paranid5.biatestapp.data.retrofit.Employer
+import com.paranid5.biatestapp.data.retrofit.chat.Employee
+import com.paranid5.biatestapp.data.retrofit.chat.Employer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

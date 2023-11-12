@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.paranid5.biatestapp.presentation.main.LocalMainNavController
 import com.paranid5.biatestapp.presentation.ui.utils.ext.pxToDp
 
 @Composable

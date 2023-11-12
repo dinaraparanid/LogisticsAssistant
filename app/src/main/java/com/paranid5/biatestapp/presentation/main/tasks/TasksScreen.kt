@@ -13,6 +13,9 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,17 +24,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import com.paranid5.biatestapp.R
 import com.paranid5.biatestapp.presentation.ui.theme.LocalAppColors
 import com.paranid5.biatestapp.presentation.ui.theme.StolzlFontFamily
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TasksScreen(modifier: Modifier = Modifier) {
+fun TasksScreen(
+    tasksViewModel: TasksViewModel,
+    modifier: Modifier = Modifier
+) {
     val colors = LocalAppColors.current.value
     val pagerState = rememberPagerState(pageCount = { 2 })
     val tabIndex = pagerState.currentPage
+
+    val incomingTasks by tasksViewModel.incomingTasks.collectAsState()
+    val executingTasks by tasksViewModel.executingTasks.collectAsState()
+
+    DisposableEffect(Unit) {
+        val task = tasksViewModel.viewModelScope.launch {
+            while (true) {
+                tasksViewModel.loadIncomingTasks()
+                tasksViewModel.loadExecutingTasks()
+                delay(1000)
+            }
+        }
+
+        onDispose { task.cancel() }
+    }
 
     Column(modifier) {
         TabRow(
@@ -50,7 +73,7 @@ fun TasksScreen(modifier: Modifier = Modifier) {
 
             TabItem(
                 tabIndex = 1,
-                text = stringResource(id = R.string.in_process),
+                text = stringResource(id = R.string.executing),
                 pagerState = pagerState,
                 modifier = Modifier.padding(16.dp),
             )
@@ -58,8 +81,21 @@ fun TasksScreen(modifier: Modifier = Modifier) {
 
         HorizontalPager(state = pagerState, modifier = modifier) { page ->
             when (page) {
-                0 -> TaskList(modifier = Modifier.fillMaxSize())
-                1 -> TaskList(modifier = Modifier.fillMaxSize())
+                0 -> TaskList(
+                    tasks = incomingTasks,
+                    tasksViewModel = tasksViewModel,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 16.dp, end = 16.dp)
+                )
+
+                1 -> TaskList(
+                    tasks = executingTasks,
+                    tasksViewModel = tasksViewModel,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 16.dp, end = 16.dp)
+                )
             }
         }
     }
